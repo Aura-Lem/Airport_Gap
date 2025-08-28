@@ -1,0 +1,12 @@
+{
+  "name": "saucelabs_api_testing",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "newman run Airport_Gap.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

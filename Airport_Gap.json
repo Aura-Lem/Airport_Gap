@@ -1,0 +1,1973 @@
+{
+	"info": {
+		"_postman_id": "8f0b270e-5790-4926-9e94-74b7da3df5ea",
+		"name": "Airport_Gap",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46357811",
+		"_collection_link": "https://aurelija-1342719.postman.co/workspace/demo_20250317~aab7d946-73c5-46ac-9c85-cb56c8804df3/collection/46357811-8f0b270e-5790-4926-9e94-74b7da3df5ea?action=share&source=collection_link&creator=46357811"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Positive",
+					"item": [
+						{
+							"name": "Authenticate_with_email_and_password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('token', pm.response.json().token);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body token property is string\", function () {\r",
+											"    pm.expect(pm.response.json().token).to.be.a('string');\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"projektas@gmail.com\",\r\n    \"password\": \"Slaptazodis123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tokens",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tokens"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative",
+					"item": [
+						{
+							"name": "Authenticate_with_email_and_without_password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\r",
+											"    \"authErrorMessage\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Auth errors message are correct\", function() {\r",
+											"    const expectedErrorMessage = JSON.parse(pm.collectionVariables.get(\"authErrorMessage\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedErrorMessage);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"projektas@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tokens",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tokens"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Authenticate_with_password_and_without_email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Auth errors message are correct\", function() {\r",
+											"    const expectedErrorMessage = JSON.parse(pm.collectionVariables.get(\"authErrorMessage\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedErrorMessage);\r",
+											"    \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\": \"Slaptazodis123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tokens",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tokens"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Get_the_airport",
+			"item": [
+				{
+					"name": "Positive",
+					"item": [
+						{
+							"name": "Get_All_Airports_details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/airports",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"airports"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get_Airport_details_by_ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\r",
+											"    \"airportDetails\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Get airports details are correct\", function() {\r",
+											"    const expectedAirportDetail = JSON.parse(pm.collectionVariables.get(\"airportDetails\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedAirportDetail);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/airports/GKA",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"airports",
+										"GKA"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative",
+					"item": [
+						{
+							"name": "Get_All_Airports_details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/airports",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"airports"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get_Airport_details_with_not_existing_ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\r",
+											"    \"getErrorMessage\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Get airport details errors message are correct\", function() {\r",
+											"    const expectedGetErrorMessage = JSON.parse(pm.collectionVariables.get(\"getErrorMessage\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedGetErrorMessage);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/airports/MMM",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"airports",
+										"MMM"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Calculate_the_distance",
+			"item": [
+				{
+					"name": "Positive",
+					"item": [
+						{
+							"name": "Get_All_Airports_details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/airports",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"airports"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Calculate_distance_between_airports",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\r",
+											"    \"calculateDistanceDetails\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Calculate distance details are correct\", function() {\r",
+											"    const expectedCalculateDistanceDetails = JSON.parse(pm.collectionVariables.get(\"calculateDistanceDetails\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedCalculateDistanceDetails);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/airports/distance?from=GKA&to=KIX",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"airports",
+										"distance"
+									],
+									"query": [
+										{
+											"key": "from",
+											"value": "GKA"
+										},
+										{
+											"key": "to",
+											"value": "KIX"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative",
+					"item": [
+						{
+							"name": "Calculate_the_distance_between_two_airports_without_keys",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\r",
+											"    \"calculateDistanceErrorMessage\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 422\", function () {\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Calculate distance errors message are correct\", function() {\r",
+											"    const expectedCalculatrDistanceErrorMessage = JSON.parse(pm.collectionVariables.get(\"calculateDistanceErrorMessage\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedCalculatrDistanceErrorMessage);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/airports/distance",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"airports",
+										"distance"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Calculate_the_distance_between_two_airports_with_epmty_key_from",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\r",
+											"    \"calculateDistanceErrorMessage\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 422\", function () {\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Calculate distance errors message are correct\", function() {\r",
+											"    const expectedCalculatrDistanceErrorMessage = JSON.parse(pm.collectionVariables.get(\"calculateDistanceErrorMessage\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedCalculatrDistanceErrorMessage);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/airports/distance?to=KIX&from",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"airports",
+										"distance"
+									],
+									"query": [
+										{
+											"key": "to",
+											"value": "KIX"
+										},
+										{
+											"key": "from",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Calculate_the_distance_between_two_airports_with_empty_key_to",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\r",
+											"    \"calculateDistanceErrorMessage\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 422\", function () {\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Calculate distance errors message are correct\", function() {\r",
+											"    const expectedCalculatrDistanceErrorMessage = JSON.parse(pm.collectionVariables.get(\"calculateDistanceErrorMessage\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedCalculatrDistanceErrorMessage);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/airports/distance?from=KIX&to",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"airports",
+										"distance"
+									],
+									"query": [
+										{
+											"key": "from",
+											"value": "KIX"
+										},
+										{
+											"key": "to",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Calculate_the_distance_between_two_airports_with_not_existing_ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\r",
+											"    \"calculateDistanceErrorMessage\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 422\", function () {\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Calculate distance errors message are correct\", function() {\r",
+											"    const expectedCalculatrDistanceErrorMessage = JSON.parse(pm.collectionVariables.get(\"calculateDistanceErrorMessage\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedCalculatrDistanceErrorMessage);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/airports/distance?from=KIX&to=MMM",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"airports",
+										"distance"
+									],
+									"query": [
+										{
+											"key": "from",
+											"value": "KIX"
+										},
+										{
+											"key": "to",
+											"value": "MMM"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Save_a_favorite_airport",
+			"item": [
+				{
+					"name": "Positive",
+					"item": [
+						{
+							"name": "Get_All_Airports_details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/airports",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"airports"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get_all_saved_Airport_details",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save_a_favorite_airport_with_airport_ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"favoriteAirportId\", pm.response.json().data.id);\r",
+											"\r",
+											"pm.collectionVariables.set(\r",
+											"    \"savedFavoriteAirportDetails\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Saved favorite airport details are correct\", function() {\r",
+											"    const expectedSavedFavoriteAirportDetails = JSON.parse(pm.collectionVariables.get(\"savedFavoriteAirportDetails\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedSavedFavoriteAirportDetails);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites?airport_id=HZK",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									],
+									"query": [
+										{
+											"key": "airport_id",
+											"value": "HZK"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save_a_favorite_airport_with_airport_ID_and_note",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"favoriteAirportWithNoteId\", pm.response.json().data.id);\r",
+											"\r",
+											"pm.collectionVariables.set(\r",
+											"    \"savedFavoriteAirportDetailsWithNote\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Saved favorite airport details are correct\", function() {\r",
+											"    const expectedSavedFavoriteAirportDetailsWithNote = JSON.parse(pm.collectionVariables.get(\"savedFavoriteAirportDetailsWithNote\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedSavedFavoriteAirportDetailsWithNote);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites?airport_id=POM&note=The Best",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									],
+									"query": [
+										{
+											"key": "airport_id",
+											"value": "POM"
+										},
+										{
+											"key": "note",
+											"value": "The Best"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save_delete_one_airport_from_list_without_note",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites/{{favoriteAirportId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites",
+										"{{favoriteAirportId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save_delete_one_airport_from_list_with_note",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites/{{favoriteAirportWithNoteId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites",
+										"{{favoriteAirportWithNoteId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative",
+					"item": [
+						{
+							"name": "Save_a_favorite_airport_with_not_existing_ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\r",
+											"    \"favoritesErrorMessage\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 422\", function () {\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Favorites errors message are correct\", function() {\r",
+											"    const expectedFavoriteErrorMessage = JSON.parse(pm.collectionVariables.get(\"favoritesErrorMessage\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedFavoriteErrorMessage);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites?airport_id=MMM",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									],
+									"query": [
+										{
+											"key": "airport_id",
+											"value": "MMM"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save_a_favorite_airport_without_params_info",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 422\", function () {\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Favorites errors message are correct\", function() {\r",
+											"    const expectedFavoriteErrorMessage = JSON.parse(pm.collectionVariables.get(\"favoritesErrorMessage\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedFavoriteErrorMessage);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Get_the_favorite_airport_by_ID",
+			"item": [
+				{
+					"name": "Positive",
+					"item": [
+						{
+							"name": "All_favorites_airports_details",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get_Save_a_favorite_airport_with_airport_ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"favoriteAirportIdForGet\", pm.response.json().data.id);\r",
+											"\r",
+											"pm.collectionVariables.set(\r",
+											"    \"savedFavoriteAirportDetails\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Saved favorite airport details are correct\", function() {\r",
+											"    const expectedSavedFavoriteAirportDetails = JSON.parse(pm.collectionVariables.get(\"savedFavoriteAirportDetails\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedSavedFavoriteAirportDetails);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites?airport_id=HZK",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									],
+									"query": [
+										{
+											"key": "airport_id",
+											"value": "HZK"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get_the_favorite_airport_by_ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\r",
+											"    \"getFavoriteAirportDetails\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Favorite airport details are correct\", function() {\r",
+											"    const expectedGetFavoriteAirportDetails = JSON.parse(pm.collectionVariables.get(\"getFavoriteAirportDetails\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedGetFavoriteAirportDetails);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites/{{favoriteAirportIdForGet}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites",
+										"{{favoriteAirportIdForGet}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get_delete_one_airport_from_list_without_note",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites/{{favoriteAirportIdForGet}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites",
+										"{{favoriteAirportIdForGet}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative",
+					"item": [
+						{
+							"name": "All_favorites_airports_details",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get_the_favorite_airport_by_not_existing_ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\r",
+											"    \"getErrorMessage\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Get favorite airport details errors message are correct\", function() {\r",
+											"    const expectedGetFavoriteErrorMessage = JSON.parse(pm.collectionVariables.get(\"getErrorMessage\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedGetFavoriteErrorMessage);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites/9999999",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites",
+										"9999999"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Update_the_note_of_one_of_favorite_airports",
+			"item": [
+				{
+					"name": "Positive",
+					"item": [
+						{
+							"name": "All_favorites_airports_details",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update_a_favorite_airport_with_airport_ID_and_note",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"favoriteAirportWithNoteId\", pm.response.json().data.id);\r",
+											"\r",
+											"pm.collectionVariables.set(\r",
+											"    \"savedFavoriteAirportDetailsWithNote\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Saved favorite airport details are correct\", function() {\r",
+											"    const expectedSavedFavoriteAirportDetailsWithNote = JSON.parse(pm.collectionVariables.get(\"savedFavoriteAirportDetailsWithNote\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedSavedFavoriteAirportDetailsWithNote);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites?airport_id=POM&note=The Best",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									],
+									"query": [
+										{
+											"key": "airport_id",
+											"value": "POM"
+										},
+										{
+											"key": "note",
+											"value": "The Best"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update_the_note_of_one_of_favorite_airports",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\r",
+											"    \"updatedAirportDetails\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Updated airport details are correct\", function() {\r",
+											"    const expectedUpdatedAirportDetails = JSON.parse(pm.collectionVariables.get(\"updatedAirportDetails\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedUpdatedAirportDetails);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites/{{favoriteAirportWithNoteId}}?note=good one",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites",
+										"{{favoriteAirportWithNoteId}}"
+									],
+									"query": [
+										{
+											"key": "note",
+											"value": "good one"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update_delete_one_airport_from_list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites/{{favoriteAirportWithNoteId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites",
+										"{{favoriteAirportWithNoteId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative",
+					"item": [
+						{
+							"name": "All_favorites_airports_details",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update_the_note_of_one_of_favorite_airports_with_not_existing_ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\r",
+											"    \"updateNoteErrorMessage\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Update notes errors message are correct\", function() {\r",
+											"    const expectedUpdateNoteErrorMessage = JSON.parse(pm.collectionVariables.get(\"updateNoteErrorMessage\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedUpdateNoteErrorMessage);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites/9999999?note=good one",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites",
+										"9999999"
+									],
+									"query": [
+										{
+											"key": "note",
+											"value": "good one"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Delete_airport_from_favorited_airports_list",
+			"item": [
+				{
+					"name": "Positive",
+					"item": [
+						{
+							"name": "All_favorites_airports_details",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete_save_a_favorite_airport_with_airport_ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"favoriteAirportIdForDeletion\", pm.response.json().data.id);\r",
+											"\r",
+											"pm.collectionVariables.set(\r",
+											"    \"savedFavoriteAirportDetails\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Saved favorite airport details are correct\", function() {\r",
+											"    const expectedSavedFavoriteAirportDetails = JSON.parse(pm.collectionVariables.get(\"savedFavoriteAirportDetails\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedSavedFavoriteAirportDetails);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites?airport_id=EGS",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									],
+									"query": [
+										{
+											"key": "airport_id",
+											"value": "EGS"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete_one_favorite_airport_from_list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites/{{favoriteAirportIdForDeletion}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites",
+										"{{favoriteAirportIdForDeletion}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative",
+					"item": [
+						{
+							"name": "All_favorites_airports_details",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete_one_of_favorite_airports_with_not_existing_ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\r",
+											"    \"deleteErrorMessage\",\r",
+											"    JSON.stringify(pm.response.json())\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Delete errors message are correct\", function() {\r",
+											"    const expectedDeleteErrorMessage = JSON.parse(pm.collectionVariables.get(\"deleteErrorMessage\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedDeleteErrorMessage);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites/9999999",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites",
+										"9999999"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://airportgap.com/api",
+			"description": {
+				"content": "",
+				"type": "text/plain"
+			}
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "authErrorMessage",
+			"value": ""
+		},
+		{
+			"key": "airportDetails",
+			"value": ""
+		},
+		{
+			"key": "getErrorMessage",
+			"value": ""
+		},
+		{
+			"key": "calculateDistanceDetails",
+			"value": ""
+		},
+		{
+			"key": "calculateDistanceErrorMessage",
+			"value": ""
+		},
+		{
+			"key": "savedFavoriteAirportDetails",
+			"value": ""
+		},
+		{
+			"key": "favoriteAirportId",
+			"value": ""
+		},
+		{
+			"key": "savedFavoriteAirportDetailsWithNote",
+			"value": ""
+		},
+		{
+			"key": "favoriteAirportWithNoteId",
+			"value": ""
+		},
+		{
+			"key": "favoritesErrorMessage",
+			"value": ""
+		},
+		{
+			"key": "getFavoriteAirportDetails",
+			"value": ""
+		},
+		{
+			"key": "updateNoteErrorMessage",
+			"value": ""
+		},
+		{
+			"key": "updatedAirportDetails",
+			"value": ""
+		},
+		{
+			"key": "deleteErrorMessage",
+			"value": ""
+		},
+		{
+			"key": "favoriteAirportIdForDeletion",
+			"value": ""
+		},
+		{
+			"key": "favoriteAirportIdForGet",
+			"value": ""
+		}
+	]
+}
