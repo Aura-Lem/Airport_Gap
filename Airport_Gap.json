@@ -1019,6 +1019,62 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Save_a_favorite_airport_with_empty_params_info",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 422\", function () {\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Favorites errors message are correct\", function() {\r",
+											"    const expectedFavoriteErrorMessage = JSON.parse(pm.collectionVariables.get(\"favoritesErrorMessage\"));\r",
+											"    pm.expect(pm.response.json()).eql(expectedFavoriteErrorMessage);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/favorites?airport_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"favorites"
+									],
+									"query": [
+										{
+											"key": "airport_id",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}

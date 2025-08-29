@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "newman run Airport_Gap.json"
+    "test": "newman run Airport_Gap.json -r html --reporter-html-export results.html"
   },
   "keywords": [],
   "author": "",

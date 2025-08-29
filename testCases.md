@@ -213,12 +213,27 @@ Steps:
 1. Add new POST request.
 2. Insert baseUrl'.
 3. Select an authorization method Bearer token and enter token from collection variables.
+4. Click on button Send.
+
+> 🎯 Expected result: 
+> 1. Status code 422.  
+> 2. Located in file responseBodyResults with id favorites_errors_rep_008 [link to favorites_errors_rep_008](./responseBodyResults.md#favorites_errors_rep_008) 
+
+## TC 4.5. Negative Save a favorite airport to Airport Gap account with empty params info.
+
+#### Pre-requisites:
+1. Get request with list of all airports details (endpoint: /airports).
+
+Steps:
+1. Add new POST request.
+2. Insert baseUrl'.
+3. Select an authorization method Bearer token and enter token from collection variables.
 4. Add Params 'airport_id' with empty value field.
 5. Click on button Send.
 
 > 🎯 Expected result: 
 > 1. Status code 422.  
-> 2. Located in file responseBodyResults with id favorites_errors_rep_008 [link to favorites_errors_rep_008](./responseBodyResults.md#favorites_errors_rep_008) 
+> 2. Located in file responseBodyResults with id favorites_errors_rep_008 [link to favorites_errors_rep_008](./responseBodyResults.md#favorites_errors_rep_008)
 
 ## TC 5.1. Positive Get the favorite airport from Airport Gap account specified by the ID
 

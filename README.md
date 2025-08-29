@@ -36,24 +36,23 @@ api-testing-project/
 │ └── ci.yml   
 │  
 ├── postman/  
-│ ├── api-tests.postman_collection.json  
-│ └── dev_environment.postman_environment.json  
+│ ├── Airport_Gap.json    
 │  
 ├── reports/  
 │ └── newman-report.html   
 │  
 ├── .gitignore  
-├── README.md 
-├── testCases.md 
+├── README.md  
+├── testCases.md  
 ├── package.json   
-└── Jira-Board-Link.md 
+└── jira_Board.md 
 
 
 ## 📦 Setup Instructions
 
 1. **Clone the Repository**
 ```bash
-git clone https://github.com/your-username/api-testing-project.git
+git clone https://github.com/Aura-Lem/Airport_Gap.git
 cd api-testing-project
 ```
 
@@ -66,14 +65,8 @@ npm install -g newman
 
 3. **Run Tests with Newman**
 ```bash
-newman run postman/api-tests.postman_collection.json \
-  -e postman/dev_environment.postman_environment.json \
-  -r cli,html \
-  --reporter-html-export reports/newman-report.html
+npm run test
 ```
-
-4. **Open Report**
-Open the reports/newman-report.html file in your browser to view the test results.
 
 ## 🧑‍💼 Project Management with Jira
 
@@ -88,7 +81,7 @@ Example workflow:
 
 ## 📈 Reporting
 
-Test reports are generated automatically using Newman and exported to reports/ folder. These reports include:
+Test reports are generated automatically using Newman. These reports include:
 
 - Request/response status
 - Assertion results
@@ -100,6 +93,5 @@ This project is intended for educational use only.
 
 ## 🙏 Acknowledgements
 
-Instructor: [Instructor Name]  
 Tools: Postman, Newman, GitHub Actions, Jira  
 IDE: Visual Studio Code
